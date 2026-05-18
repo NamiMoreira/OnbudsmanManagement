@@ -1,0 +1,327 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+model UserRecovery {
+    id          String   @id @default(uuid()) @unique
+    user_email  String
+    token       String
+    expires_at  DateTime
+    used        Boolean @default(false)
+}
+
+
+model User { 
+    id          String   @id @default(uuid()) @unique
+    name        String
+    email       String
+    password    String
+    role        Int      @default(0)
+    sector_id   Int     
+    created_at  DateTime @default(now())
+    updated_at  DateTime @default(now())
+
+    role_description Role_description @relation(fields: [role], references: [id])
+    sector           Sector           @relation(fields: [sector_id], references: [id])
+
+    @@map("user")
+}
+
+model Role_description {
+    id         Int      @id @default(autoincrement())  
+    name       String
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now())
+    users      User[]
+
+    @@map("role_description")
+}
+
+model Sector {
+    id         Int      @id @default(autoincrement())  
+    name       String
+    created_at DateTime @default(now())
+    updated_at DateTime @default(now())
+    email      String
+    users      User[]
+
+    @@map("sector")
+}
+
+model Histor_sector {
+    id             Int      @id @default(autoincrement())  
+    protocol       String        
+    sector_origin  String           
+    sector_destiny String         
+    date_send      DateTime @default(now())
+    user_send      String          
+    observacao     String   
+
+    @@map("histor_sector")
+}
+
+model Occurrence {
+    id                   Int       @id @default(autoincrement())
+    reanalise            Boolean   @default(false)
+    unidade_id           Int
+    descricao            String
+    cartao_beneficiario  String
+    manifestacao_ant     String    @default("") 
+    nome                 String
+    nome_cliente         String    @default("")
+    email                String
+    cpf                  String
+    telefone             String
+    tp_contrato_id       Int       @default(1)
+    tp_demandante_id     Int       @default(1)
+    canal_id             Int       @default(1)
+    setor_interno_id     Int       @default(1)
+    status_id            Int       @default(1)
+    prazo_final          DateTime
+    prazo_interno        DateTime 
+    anexo                Boolean   @default(false)
+    receptor             Int?     
+    comment_id           String?
+    observacao_interna   String?
+    usuario_atualizacao  Int       @default(1)
+    protocolo            String    @unique
+    message              Boolean   @default(false)
+    created_at           DateTime  @default(now())
+    updated_at           DateTime  @default(now())
+    objetivo             String    @default("")
+    resolucao            String    @db.Text @default("")
+  
+    unidade         Unidade         @relation(fields: [unidade_id], references: [unidade_id])
+    canal           Canal           @relation(fields: [canal_id], references: [canal_id])
+    setor_interno   Setor_interno   @relation(fields: [setor_interno_id], references: [setor_interno_id])
+    tp_demandante   Tp_demandante   @relation(fields: [tp_demandante_id], references: [tp_demandante_id])
+    tp_contrato     Tp_contrato     @relation(fields: [tp_contrato_id], references: [tp_contrato_id])
+    status          Status          @relation(fields: [status_id], references: [status_id])
+  
+    @@map("occurrence")
+}
+
+model Unidade {
+    unidade_id   Int          @id @default(autoincrement())
+    unidade_nome String
+    created_at   DateTime     @default(now())
+    updated_at   DateTime     @default(now())
+    occurrences  Occurrence[]
+
+    @@map("unidade")
+}
+
+model Canal {
+    canal_id     Int          @id @default(autoincrement())
+    canal_nome   String
+    created_at   DateTime     @default(now())
+    updated_at   DateTime     @default(now())
+    occurrences  Occurrence[]
+
+    @@map("canal")
+}
+
+model Setor_interno {
+    setor_interno_id Int          @id @default(autoincrement())
+    setor_nome       String
+    created_at       DateTime     @default(now())
+    updated_at       DateTime     @default(now())
+    occurrences      Occurrence[]
+
+    @@map("setor_interno")
+}
+
+model Tp_demandante {
+    tp_demandante_id   Int          @id @default(autoincrement())
+    tp_demandante_nome String
+    created_at         DateTime     @default(now())
+    updated_at         DateTime     @default(now())
+    occurrences        Occurrence[]
+
+    @@map("tp_demandante")
+}
+
+model Tp_contrato {
+    tp_contrato_id   Int          @id @default(autoincrement())
+    tp_contrato_nome String
+    created_at       DateTime     @default(now())
+    updated_at       DateTime     @default(now())
+    occurrences      Occurrence[]
+
+    @@map("tp_contrato")
+}
+
+model Status {
+    status_id    Int          @id @default(autoincrement())
+    status_nome  String
+    created_at   DateTime     @default(now())
+    updated_at   DateTime     @default(now())
+    occurrences  Occurrence[]
+
+    @@map("status")
+}
+
+model Comment {
+    comment_id    Int       @id @default(autoincrement())
+    occurrence_id String       
+    content       String
+    name          String?
+    created_at    DateTime  @default(now())
+    updated_at    DateTime  @default(now())
+    answered      Boolean   @default(false) 
+
+    @@map("comment")
+}
+
+model Question {
+    question_id  Int      @id @default(autoincrement())
+    ocurrence_id String 
+    content      String
+    user_created String
+    created_at   DateTime @default(now())
+    updated_at   DateTime @default(now())
+
+    @@map("question")
+}
+
+// Prisma Schema para Oportunidade de Melhoria
+// Adicione ao seu arquivo prisma/schema.prisma
+
+
+// Modelo principal para Oportunidade de Melhoria
+model OportunidadeMelhoria {
+  id                       String                   @id @default(cuid())
+  createdAt                DateTime                 @default(now())
+  updatedAt                DateTime                 @updatedAt
+  
+  // Campo de quem está respondendo
+  nomeRespondente          String                   @map("nome_respondente")
+  
+  // NOTIFICAÇÃO
+  dataNotificacao          DateTime?                @map("data_notificacao")
+  protocoloOuvidoria       String?                  @map("protocolo_ouvidoria")
+  protocoloPrimeiraInstancia String?                @map("protocolo_primeira_instancia")
+  nomeClienteDemandante    String?                  @map("nome_cliente_demandante")
+  dataOcorrencia           DateTime?                @map("data_ocorrencia")
+  tipoAtendimento          String?                  @map("tipo_atendimento")
+  nomeClienteAtendido      String?                  @map("nome_cliente_atendido")
+  dataNascimento           DateTime?                @map("data_nascimento")
+  convenio                 String?
+  
+  // DESCRIÇÃO DA MANIFESTAÇÃO
+  descricaoManifestacao    String                   @map("descricao_manifestacao") @db.Text
+  
+  // INVESTIGAÇÃO DO OCORRIDO
+  investigacaoOcorrido     String?                  @map("investigacao_ocorrido") @db.Text
+  ocorrenciaRecorrente     Boolean?                 @map("ocorrencia_recorrente")
+  acaoImediata             String?                  @map("acao_imediata") @db.Text
+  areaEnvolvida            String?                  @map("area_envolvida")
+  responsavelRegistro      String?                  @map("responsavel_registro")
+  dataRegistro             DateTime?                @map("data_registro")
+  procede                  Boolean?
+  justificativa            String?                  @db.Text
+  
+  // ANÁLISE DE CAUSA RAIZ
+  analiseCausaRaiz         String?                  @map("analise_causa_raiz") @db.Text
+  
+  // REGISTRO DA OUVIDORIA
+  retornoCliente           String?                  @map("retorno_cliente") @db.Text
+  nomeContato              String?                  @map("nome_contato")
+  dataRetorno              DateTime?                @map("data_retorno")
+  horaRetorno              String?                  @map("hora_retorno")
+  canalRetorno             String?                  @map("canal_retorno")
+  
+  // FEEDBACK DO CLIENTE
+  feedbackCliente          String?                  @map("feedback_cliente") @db.Text
+  pertinente               Boolean?                 @map("pertinente") // true = sim, false = não
+  
+  // Relacionamentos
+  planoAcao                PlanoAcao[]              // Um-para-muitos
+  anexos                   Anexo[]                  // Um-para-muitos
+  
+  // Metadados
+  status                   StatusOportunidade       @default(PENDENTE)
+  enviadoPor               String?                  @map("enviado_por") // IP ou usuário
+  historico                HistoricoOportunidade[]
+  @@map("oportunidades_melhoria")
+  @@index([createdAt])
+  @@index([protocoloOuvidoria])
+  @@index([status])
+}
+
+// Modelo para o Plano de Ação (tabela dinâmica)
+model PlanoAcao {
+  id               String                @id @default(cuid())
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  
+  oportunidadeId   String                @map("oportunidade_id")
+  oportunidade     OportunidadeMelhoria  @relation(fields: [oportunidadeId], references: [id], onDelete: Cascade)
+  
+  // Campos do plano de ação
+  oQueFazer        String?               @map("o_que_fazer") @db.Text
+  comoFazer        String?               @map("como_fazer") @db.Text
+  quandoFazer      String?               @map("quando_fazer")
+  ondeFazer        String?               @map("onde_fazer")
+  responsavel      String?
+  statusPrevisto   String?               @map("status_previsto")
+  statusRealizado  String?               @map("status_realizado")
+  evidencias       String?               @db.Text
+  
+  ordem            Int                   @default(0) // Para ordenação
+  
+  @@map("planos_acao")
+  @@index([oportunidadeId])
+}
+
+// Modelo para Anexos (arquivos)
+model Anexo {
+  id               String                @id @default(cuid())
+  createdAt        DateTime              @default(now())
+  
+  oportunidadeId   String                @map("oportunidade_id")
+  oportunidade     OportunidadeMelhoria  @relation(fields: [oportunidadeId], references: [id], onDelete: Cascade)
+  
+  // Dados do arquivo
+  nomeOriginal     String                @map("nome_original")
+  nomeArmazenado   String                @map("nome_armazenado") // Nome único no servidor
+  caminho          String                // Caminho onde o arquivo foi salvo
+  tipo             String                // MIME type
+  tamanho          Int                   // Tamanho em bytes
+  ordem            Int                   @default(0)
+  
+  @@map("anexos")
+  @@index([oportunidadeId])
+}
+
+// Enum para status da oportunidade
+enum StatusOportunidade {
+  PENDENTE        // Aguardando análise
+  EM_ANALISE      // Em análise pela área responsável
+  AGUARDANDO_RETORNO // Aguardando retorno do cliente
+  CONCLUIDO       // Concluído com sucesso
+  ARQUIVADO       // Arquivado
+  REJEITADO       // Rejeitado (não procede)
+}
+
+// Opcional: Modelo para histórico de alterações
+model HistoricoOportunidade {
+  id               String                @id @default(cuid())
+  createdAt        DateTime              @default(now())
+  
+  oportunidadeId   String                @map("oportunidade_id")
+  oportunidade     OportunidadeMelhoria  @relation(fields: [oportunidadeId], references: [id], onDelete: Cascade)
+  
+  acao             String                // Ação realizada
+  descricao        String?               @db.Text
+  usuario          String?               // Quem realizou a ação
+  dadosAnteriores  Json?                 @map("dados_anteriores") // Para auditoria
+  
+  @@map("historico_oportunidades")
+  @@index([oportunidadeId])
+  @@index([createdAt])
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Ouvidoria - Solicitação de Informação</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+    .header {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .content {
+      margin-bottom: 20px;
+    }
+    .attachments {
+      margin-bottom: 20px;
+    }
+    .attachments a {
+      display: block;
+      margin-bottom: 5px;
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    .footer {
+      font-size: 12px;
+      color: #555;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: #1a73e8;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      Solicitação de Informação - Protocolo #{{PROTOCOLO}}
+    </div>
+    
+    <div class="content">
+      Prezado(a) <strong>{{NOME_CLIENTE}}</strong>,
+      
+      <p>A ouvidoria recebeu seu protocolo <strong>#{{PROTOCOLO}}</strong> e necessita de informações adicionais para dar prosseguimento ao seu processo.</p>
+      
+      <p>Mensagem enviada por: <strong>{{NOME_EMISSOR}}</strong></p>
+
+      <p>Mensagem: <strong>{{MENSAGEM}}</strong></p>
+      
+      <div class="attachments">
+        <p>{{DOWNLOAD}}</p>
+      </div>
+      
+      <p>Para responder a esta solicitação, acesse o link abaixo. Ao acessar a página, informe seus dados, o número do protocolo e selecione a opção "Adicionar Comentários" para enviar sua resposta:</p>
+      
+      <a href="http://localhost:3001/ocurrence" class="button" target="_blank">Responder à Ouvidoria</a>
+    </div>
+    
+    <div class="footer">
+      Esta é uma mensagem automática enviada pelo sistema de ouvidoria. Por favor, não responda a este e-mail diretamente.
+    </div>
+  </div>
+</body>
+</html>

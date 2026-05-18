@@ -1,0 +1,214 @@
+/* Login.css */
+:root {
+  --unimed-green-dark: #006633;
+  --unimed-green: #008844;
+  --unimed-green-light: #4CAF50;
+  --unimed-green-lighter: #E8F5E9;
+  --unimed-green-bg: #F1F8E9;
+  --unimed-gray: #F5F5F5;
+  --unimed-gray-dark: #666666;
+  --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 15px 35px rgba(0, 102, 51, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--unimed-green-dark) 0%, var(--unimed-green) 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.login-header h1 {
+  color: var(--unimed-green-dark);
+  font-size: 24px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.login-header p {
+  color: var(--unimed-gray-dark);
+  font-size: 14px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: var(--unimed-green-dark);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 2px solid #E0E0E0;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-group input:focus {
+  border-color: var(--unimed-green);
+  box-shadow: 0 0 0 3px rgba(0, 136, 68, 0.1);
+}
+
+.form-group input:disabled {
+  background-color: var(--unimed-gray);
+  cursor: not-allowed;
+}
+
+.login-button {
+  background: linear-gradient(135deg, var(--unimed-green-dark) 0%, var(--unimed-green) 100%);
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: #FFEBEE;
+  color: #C62828;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-left: 4px solid #C62828;
+}
+
+.error-icon {
+  font-size: 16px;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  font-size: 13px;
+}
+
+.forgot-password,
+.support-link {
+  color: var(--unimed-green);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover,
+.support-link:hover {
+  color: var(--unimed-green-dark);
+  text-decoration: underline;
+}
+
+.divider {
+  color: var(--unimed-gray-dark);
+}
+
+.security-badge {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #E0E0E0;
+  font-size: 12px;
+  color: var(--unimed-gray-dark);
+}
+
+.security-badge span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .login-card {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+
+  .login-header h1 {
+    font-size: 20px;
+  }
+
+  .login-header p {
+    font-size: 12px;
+  }
+
+  .login-button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

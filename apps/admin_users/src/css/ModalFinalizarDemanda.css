@@ -1,0 +1,56 @@
+.lista-arquivos {
+    background-color: #f8f9fa;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.arquivo-item {
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+}
+
+.arquivo-item:hover {
+    background-color: #fefefe;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+}
+
+.arquivo-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.arquivo-nome {
+    font-size: 14px;
+    color: #495057;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+}
+
+.arquivo-tamanho {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.btn-remover-arquivo {
+    color: #dc3545;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.btn-remover-arquivo:hover {
+    color: #c82333;
+    text-decoration: none;
+}

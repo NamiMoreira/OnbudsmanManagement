@@ -1,0 +1,474 @@
+/* OportunidadeMelhoria.css - Padrão Unimed Verde */
+.om-container {
+  background: #E8F3E8;  /* Verde mais suave e claro */
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.om-document {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2rem 2.5rem;
+  transition: all 0.2s;
+}
+
+/* Header e logo */
+.om-header {
+  border-bottom: 3px solid #5F9E6E;  /* Verde Unimed médio */
+  margin-bottom: 1.8rem;
+  padding-bottom: 1.2rem;
+}
+
+.om-logo-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.om-logo-placeholder svg {
+  width: 54px;
+  height: 54px;
+  color: #3C7A4A;  /* Verde Unimed principal */
+}
+
+.om-title-box h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #2C5E3A;  /* Verde Unimed escuro */
+  letter-spacing: -0.3px;
+}
+
+.om-title-box h3 {
+  margin: 0.25rem 0 0;
+  font-weight: 500;
+  color: #5F9E6E;  /* Verde Unimed médio */
+}
+
+.om-respondente-field {
+  background: #F0F7F0;  /* Verde muito claro */
+  border-left: 6px solid #5F9E6E;  /* Verde Unimed médio */
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  margin-top: 0.8rem;
+}
+
+.om-respondente-field label {
+  font-weight: 700;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2C5E3A;  /* Verde Unimed escuro */
+}
+
+.om-input-large {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #C8E0CD;  /* Verde muito suave */
+  border-radius: 10px;
+  background: white;
+  transition: 0.2s;
+}
+
+.om-input-large:focus {
+  border-color: #5F9E6E;  /* Verde Unimed médio */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(95, 158, 110, 0.15);
+}
+
+/* Sections */
+.om-section {
+  border: 1px solid #D4E8D9;  /* Verde bem suave */
+  border-radius: 16px;
+  padding: 1.5rem 1.8rem;
+  margin-bottom: 2rem;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.om-section legend {
+  font-weight: 700;
+  font-size: 1.2rem;
+  padding: 0 1rem;
+  width: auto;
+  color: #3C7A4A;  /* Verde Unimed principal */
+  background: white;
+  border-radius: 40px;
+  border: 1px solid #D4E8D9;  /* Verde bem suave */
+  background-color: #FFFFFF;
+}
+
+/* Grids */
+.om-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem 1.8rem;
+}
+
+.om-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.om-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.om-field label {
+  font-weight: 600;
+  color: #3C5A3C;  /* Verde acinzentado */
+  font-size: 0.85rem;
+}
+
+.om-field input, 
+.om-field select, 
+.om-field textarea {
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #D4E8D9;  /* Verde bem suave */
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: 0.2s;
+  background: #FFFFFF;
+}
+
+.om-field textarea {
+  resize: vertical;
+}
+
+.om-field input:focus, 
+.om-field select:focus, 
+.om-field textarea:focus {
+  border-color: #5F9E6E;  /* Verde Unimed médio */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(95, 158, 110, 0.15);
+}
+
+.om-textarea-full {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 12px;
+  border: 1px solid #D4E8D9;  /* Verde bem suave */
+  font-family: inherit;
+  resize: vertical;
+  transition: 0.2s;
+}
+
+.om-textarea-full:focus {
+  border-color: #5F9E6E;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(95, 158, 110, 0.15);
+}
+
+/* Radios */
+.om-inline-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem 0 0.8rem;
+  background: #F8FCF8;  /* Verde extremamente claro */
+  padding: 0.6rem 1rem;
+  border-radius: 40px;
+}
+
+.om-radio-label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+  color: #2C5E3A;
+}
+
+.om-inline-group label {
+  color: #3C7A4A;
+  cursor: pointer;
+}
+
+.om-inline-group input[type="radio"] {
+  accent-color: #5F9E6E;  /* Verde Unimed médio */
+  margin-right: 0.3rem;
+}
+
+/* Tabela Plano de Ação */
+.om-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  border-radius: 14px;
+  border: 1px solid #D4E8D9;
+}
+
+.om-plano-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 950px;
+}
+
+.om-plano-table th {
+  background-color: #F0F7F0;  /* Verde muito claro */
+  padding: 12px 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid #D4E8D9;
+  text-align: left;
+  color: #2C5E3A;  /* Verde Unimed escuro */
+}
+
+.om-plano-table td {
+  border: 1px solid #E8F3E8;
+  padding: 6px;
+  vertical-align: top;
+}
+
+.om-plano-table input {
+  width: 100%;
+  border: none;
+  padding: 8px 4px;
+  background: transparent;
+  font-size: 0.85rem;
+}
+
+.om-plano-table input:focus {
+  outline: none;
+  background: #F8FCF8;
+  border-radius: 6px;
+}
+
+.om-btn-remove {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #B85C5C;
+  transition: 0.1s;
+  padding: 4px 8px;
+}
+
+.om-btn-remove:hover {
+  color: #8B3A3A;
+  transform: scale(1.05);
+}
+
+.om-btn-add {
+  background-color: #F0F7F0;  /* Verde muito claro */
+  border: 1px solid #C8E0CD;
+  padding: 0.5rem 1.2rem;
+  border-radius: 40px;
+  font-weight: 600;
+  color: #3C7A4A;  /* Verde Unimed principal */
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: 0.2s;
+}
+
+.om-btn-add:hover {
+  background-color: #E0F0E3;
+  border-color: #5F9E6E;
+  transform: translateY(-1px);
+}
+
+/* Arquivos */
+.om-file-area {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: #F8FCF8;  /* Verde extremamente claro */
+  border-radius: 16px;
+  border: 1px dashed #C8E0CD;
+}
+
+.om-file-input {
+  margin-bottom: 1rem;
+  color: #3C7A4A;
+}
+
+.om-file-list {
+  background: #F0F7F0;  /* Verde muito claro */
+  padding: 0.8rem;
+  border-radius: 12px;
+  margin-top: 0.6rem;
+}
+
+.om-file-list ul {
+  margin: 0.5rem 0 0 1rem;
+}
+
+.om-file-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0;
+  color: #2C5E3A;
+}
+
+.om-remove-file {
+  background: none;
+  border: none;
+  color: #B85C5C;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 0.8rem;
+  font-size: 1rem;
+}
+
+.om-remove-file:hover {
+  color: #8B3A3A;
+  transform: scale(1.1);
+}
+
+.om-file-hint {
+  display: block;
+  font-size: 0.7rem;
+  color: #6C8E6C;
+  margin-top: 0.6rem;
+}
+
+/* Botões de envio */
+.om-actions {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 2rem 0 1rem;
+  flex-wrap: wrap;
+}
+
+.om-btn-submit {
+  background: #5F9E6E;  /* Verde Unimed médio */
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.om-btn-submit:hover:not(:disabled) {
+  background: #3C7A4A;  /* Verde Unimed principal */
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.om-btn-submit:disabled {
+  background: #B8D0BD;
+  cursor: not-allowed;
+}
+
+.om-btn-reset {
+  background: #F0F7F0;  /* Verde muito claro */
+  border: 1px solid #C8E0CD;
+  padding: 0.9rem 1.8rem;
+  border-radius: 60px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #3C7A4A;
+  transition: 0.2s;
+}
+
+.om-btn-reset:hover {
+  background: #E0F0E3;
+  border-color: #5F9E6E;
+  transform: translateY(-1px);
+}
+
+/* Mensagens */
+.om-message {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 16px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.om-message.success {
+  background: #E0F0E3;  /* Verde claro */
+  color: #2C5E3A;
+  border-left: 6px solid #5F9E6E;
+}
+
+.om-message.error {
+  background: #FCE8E8;
+  color: #B85C5C;
+  border-left: 6px solid #B85C5C;
+}
+
+/* Responsivo */
+@media (max-width: 780px) {
+  .om-container { 
+    padding: 1rem; 
+  }
+  .om-document { 
+    padding: 1rem; 
+  }
+  .om-grid-2, 
+  .om-grid-3 { 
+    grid-template-columns: 1fr; 
+    gap: 0.8rem; 
+  }
+  .om-section { 
+    padding: 1rem; 
+  }
+  .om-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  .om-btn-submit,
+  .om-btn-reset {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Melhorias de contraste e acessibilidade */
+@media print {
+  .om-container {
+    background: white;
+    padding: 0;
+  }
+  .om-actions {
+    display: none;
+  }
+}
+
+/* Scroll suave para a tabela */
+.om-table-wrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.om-table-wrapper::-webkit-scrollbar-track {
+  background: #E8F3E8;
+  border-radius: 10px;
+}
+
+.om-table-wrapper::-webkit-scrollbar-thumb {
+  background: #C8E0CD;
+  border-radius: 10px;
+}
+
+.om-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #5F9E6E;
+}
+
+/* Placeholder e texto suave */
+::placeholder {
+  color: #B8D0BD;
+  opacity: 0.7;
+}
+
+/* Foco suave */
+*:focus {
+  outline: none;
+}
+
+/* Estilo para links e elementos interativos */
+a, button {
+  transition: all 0.2s ease;
+}
