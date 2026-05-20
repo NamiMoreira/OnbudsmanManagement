@@ -6,7 +6,6 @@ import { ShowCommentsOcurrenceService } from "../../services/occurrence/ShowComm
 class ShowCommentsOcurrenceController{
     async handle ( req: Request, res: Response){
         const protocolo = req.params.id;
-        console.log(protocolo);
         
         const showCommentsOcurrenceService = new ShowCommentsOcurrenceService();
         const result = await  showCommentsOcurrenceService.execute(protocolo);

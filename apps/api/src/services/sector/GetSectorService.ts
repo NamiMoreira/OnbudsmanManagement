@@ -2,11 +2,11 @@ import { log } from "node:console";
 import prismaClient from "../../prisma";
 
 class GetSectorService {
-    async execute (name){
+    async execute (id){
         try {
             const result = await prismaClient.sector.findFirst({
                 where: {
-                    name: name
+                    id: id
                 }
             });
             if (!result) {

@@ -20,7 +20,6 @@ export default function New() {
 
   
   const handleUserAction = (action) => {
-    console.log(user);
     
     if (action === "Trocar Senha") {
       navigate(`/Reset-password?token=${token}`);

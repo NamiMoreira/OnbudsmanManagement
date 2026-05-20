@@ -9,7 +9,7 @@ class CreateQuestionsOcurrenceService {
       });
       if (!ocurrenceExists) {
         return {
-          status: "error",
+          status: "error", 
           statusCode: 404,
           text: "Protocolo não localizado",
           err: "Protocolo não localizado",
@@ -25,7 +25,7 @@ class CreateQuestionsOcurrenceService {
       });
                    await prismaClient.occurrence.update({
                  data: {
-                     status_id: 3
+                     status_id: 5
                  },
                  where: {
                      protocolo: data.protocol

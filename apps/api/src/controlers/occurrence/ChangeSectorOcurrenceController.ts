@@ -9,7 +9,6 @@ const path = require("path");
 class ChangeSectorOcurrenceController{
     async handle (req: Request,res: Response,){
         const data = req.body        
-        console.log(data);
         const changeSectorOcurrenceService = new ChangeSectorOcurrenceService();
         const response = await changeSectorOcurrenceService.execute(data);
         
@@ -23,7 +22,6 @@ class ChangeSectorOcurrenceController{
         const dataSector = await getSectorService.execute(data.sector_destiny)
         const dir = path.resolve(__dirname, "../../templates/questionamento_ouvidoria.html");
         var template = readFileSync(dir,'utf-8')
-        console.log(dataSector.email);
         
 
         template = template.replace("$observacao",data.observacao )

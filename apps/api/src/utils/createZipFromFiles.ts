@@ -16,9 +16,8 @@ export function createZipFromFiles(files, outputFolder , zipName) {
     
     files.forEach(filePath => {
       const fileName = path.basename(filePath); 
-      console.log(fileName);
       
-      archive.file(filePath, { name: `${fileName.split("-")[3]}.${fileName.split(".")[1]}` });
+      archive.file(filePath, { name: fileName.split('-')[2] });
     });
     
     

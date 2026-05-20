@@ -6,14 +6,19 @@ class UpdateOcurrenceController{
         let {id} = req.params
         
         let data = req.body;
+        try {
+            const updateOcurrenceService = new UpdateOcurrenceService();
+            const ocurrence = await updateOcurrenceService.execute(id,data );
 
-        const updateOcurrenceService = new UpdateOcurrenceService();
-        const ocurrence = await updateOcurrenceService.execute(id,data );
+            
+            return res.json(ocurrence)
+        } catch (error) {
+            return res.json({"error": error}).status(500)
+        }
         
-        return res.json(ocurrence)
     
     }
-
+ 
     
 };
 

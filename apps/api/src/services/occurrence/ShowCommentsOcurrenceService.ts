@@ -3,7 +3,6 @@ import prismaClient from "../../prisma";
 
 class ShowCommentsOcurrenceService {
   async execute(protocol) {
-    console.log(protocol);
     
     try {
         const comments = await prismaClient.comment.findMany({
@@ -11,7 +10,6 @@ class ShowCommentsOcurrenceService {
                 occurrence_id : protocol
             }
         });
-        console.log(comments);
         
      return {
       text: "Executado com sucesso",

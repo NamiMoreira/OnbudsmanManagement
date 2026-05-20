@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
     } catch (error) {
       console.error("❌ Erro ao enviar email:", error);
       throw error;
-      return false
+      
     }
   }
 }

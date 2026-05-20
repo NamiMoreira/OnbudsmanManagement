@@ -43,9 +43,13 @@ model Sector {
     id         Int      @id @default(autoincrement())  
     name       String
     created_at DateTime @default(now())
-    updated_at DateTime @default(now())
+    updated_at DateTime @updatedAt
     email      String
-    users      User[]
+
+    sectors_origin  Histor_sector[] @relation("SectorOrigin")
+    sectors_destiny Histor_sector[] @relation("SectorDestiny")
+
+    users User[]
 
     @@map("sector")
 }
@@ -53,12 +57,16 @@ model Sector {
 model Histor_sector {
     id             Int      @id @default(autoincrement())  
     protocol       String        
-    sector_origin  String           
-    sector_destiny String         
+    
+    sector_origin  Int           
+    sector_destiny Int         
+
     date_send      DateTime @default(now())
     user_send      String          
     observacao     String   
 
+    sector_origin_FK  Sector     @relation("SectorOrigin", fields: [sector_origin], references: [id])
+    sector_destiny_FK Sector     @relation("SectorDestiny", fields: [sector_destiny], references: [id])
     @@map("histor_sector")
 }
 
@@ -99,7 +107,7 @@ model Occurrence {
     tp_demandante   Tp_demandante   @relation(fields: [tp_demandante_id], references: [tp_demandante_id])
     tp_contrato     Tp_contrato     @relation(fields: [tp_contrato_id], references: [tp_contrato_id])
     status          Status          @relation(fields: [status_id], references: [status_id])
-  
+    
     @@map("occurrence")
 }
 

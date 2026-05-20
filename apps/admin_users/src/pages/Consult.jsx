@@ -69,9 +69,9 @@ export default function New() {
   });
 
   const userInfo = {
-    name: "Carlos Silva",
-    group: "Ouvidoria",
-    email: "carlos.silva@unimed.com.br",
+    name: user?.name || user?.email?.split("@")[0] || "Usuário",
+    group: user?.role === 1 ? "Administrador" : "Ouvidoria",
+    email: user?.email || "",
   };
 
   const statusOptions = [
@@ -252,7 +252,9 @@ export default function New() {
     }
   };
 
-  const fetchOcorrencia = async (id) => {
+  const fetchOcorrencias = async (id) => {
+    
+    console.log('teste')
     if (!id) {
       alert("Por favor, informe o Protocolo da ocorrência");
       return;
@@ -297,13 +299,13 @@ export default function New() {
 
       // Buscar documentos em simultâneo
       fetchDocumentos(data.protocolo);
-
       alert("Ocorrência carregada com sucesso!");
     } catch (error) {
       console.error("Erro ao buscar ocorrência:", error);
       alert(`Erro ao carregar ocorrência: ${error}`);
     } finally {
       setLoading(false);
+      
     }
   };
 
@@ -315,7 +317,8 @@ export default function New() {
       const queryParams = new URLSearchParams();
 
       if (searchFilters.cpf)
-        queryParams.append("cpf", searchFilters.cpf);
+        queryParams.append("cpf", (searchFilters.cpf.replace(/[.-]/g, "")));
+console.log((searchFilters.cpf.replace(/[.-]/g, "")));
 
       if (searchFilters.cartao_beneficiario)
         queryParams.append("cartao_beneficiario", searchFilters.cartao_beneficiario);
@@ -342,11 +345,10 @@ export default function New() {
         throw new Error(data.error);
       }
 
-      // ✅ 🔥 AQUI É O PONTO MAIS IMPORTANTE
       const dataArray = Array.isArray(data) ? data : [data];
 
       setSearchResults(dataArray);     // backup (backend)
-      setVisibleResults(dataArray);    // UI (editável)
+     
 
       setShowResults(true);
 
@@ -359,7 +361,7 @@ export default function New() {
       console.error("Erro ao buscar ocorrências:", error);
       alert(`Erro ao buscar ocorrências: ${error.message}`);
     } finally {
-      setSearching(false);
+      
     }
   };
 
@@ -418,7 +420,6 @@ export default function New() {
   };
 
     const handleRemoveCard = (id) => {
-      console.log('terste');
       
       setVisibleResults((prev) =>
         prev.filter((item) => (item._id || item.id) !== id)
@@ -1329,12 +1330,8 @@ export default function New() {
                       type="button"
                       className="btn btn-success w-100"
                       onClick={() => {
-                              fetchOcorrencia(ocorrenciaId);
-                              setVisibleResults([]); // limpa cards antigos
-                            }}
-
-                      disabled={loading || !ocorrenciaId}
-                      
+                              fetchOcorrencias(ocorrenciaId);
+                            }}                      
                     >
                       {loading ? (
                         <>

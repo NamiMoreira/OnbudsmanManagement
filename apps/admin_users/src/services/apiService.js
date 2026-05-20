@@ -3,7 +3,6 @@ const BASE_URL = "http://192.168.30.26:8090";
 export const apiService = {
   // Ocorrências
 async fetchOcorrencia(id) {
-  console.log(`🔍 [API] Buscando ocorrência ID: ${id}`);
   
   try {
     // Use apenas o endpoint que você sabe que existe
@@ -55,8 +54,7 @@ async fetchOcorrencia(id) {
         throw new Error('Resposta vazia da API');
       }
       
-      data = JSON.parse(responseText);
-      console.log('✅ JSON parseado com sucesso');
+ 
     } catch (parseError) {
       throw new Error('Erro ao processar resposta da API');
     }
@@ -73,7 +71,6 @@ async fetchOcorrencia(id) {
       // Tenta converter string para objeto
       try {
         const parsedData = JSON.parse(data);
-        console.log('✅ String convertida para objeto:', parsedData);
         return parsedData;
       } catch {
         return { mensagem: data };
@@ -88,7 +85,6 @@ async fetchOcorrencia(id) {
 },
 
   async updateOcorrencia(id, data) {
-    console.log(data)
     const response = await fetch(`${BASE_URL}/ocurrence/${id}`, {
       method: "PUT",
       headers: {

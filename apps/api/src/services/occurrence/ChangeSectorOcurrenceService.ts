@@ -18,7 +18,7 @@ class ChangeSectorOcurrenceService{
              })
      
              await prismaClient.occurrence.update({
-                 data: {
+                 data: { 
                      status_id: 2
                  },
                  where: {

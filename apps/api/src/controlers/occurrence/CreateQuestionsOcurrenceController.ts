@@ -36,10 +36,10 @@ class CreateQuestionsOcurrenceController {
       template = template.replace('{{NOME_EMISSOR}}',data.user_question)
       template = template.replace('{{MENSAGEM}}',data.question)
       setTimeout(async () => {
-
+          
       for (let i = 0; i < filePath.length; i++) {
         let element = filePath[i];
-        if (`${element.split("-")[0]}-${element.split("-")[1]}-${element.split("-")[2]}` ==`${data_envio}-${data.protocol}`) {
+        if (`${element.split("-")[0]}-${element.split("-")[1]}` ==`${data_envio}-${data.protocol}`) {
           element = path.resolve(__dirname,"..","..","uploads", "questions",element) 
           
           files.push(element);
@@ -51,7 +51,7 @@ class CreateQuestionsOcurrenceController {
         const outputFolder = path.resolve(__dirname,"..","..","uploads","questions",'zip');
         const zipName = `${data_envio}_files.zip`;
         const zipFiles = await createZipFromFiles(files,outputFolder,zipName);
-  
+     
         const payload = {
           from: "noreply@unimedpinda.com.br",
           to: result.email,
@@ -59,20 +59,24 @@ class CreateQuestionsOcurrenceController {
           html: template,
           attachments: [{filename: `ocorrencia_${data.protocol}.zip`, path: zipFiles }],
         };
+        
+        
           const sendEmailService = new SendEmailService();
           const statusEmail = await sendEmailService.execute(payload);
       }else {
         template = template.replace('{{DOWNLOAD}}', '')
-              const payload = {
+          
+          const payload = {
           from: "noreply@unimedpinda.com.br",
           to: result.email,
           subject: `Questionamento Ocorrencia - Protocolo: ${data.protocol}`,
           html: template,
          
         };
-         const sendEmailService = new SendEmailService();
-         const statusEmail = await sendEmailService.execute(payload);
+        const sendEmailService = new SendEmailService();
+        const statusEmail = await sendEmailService.execute(payload);
       }
+      
 
       }, 5000);
       if (!result.err) {

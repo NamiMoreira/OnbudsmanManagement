@@ -1,62 +1,226 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Resposta ao Beneficiário</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resposta da Ouvidoria</title>
+
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8;
       font-family: Arial, Helvetica, sans-serif;
-      color: #333;
-      line-height: 1.6;
+      color: #333333;
     }
+
+    .wrapper {
+      width: 100%;
+      padding: 30px 0;
+      background-color: #f4f6f8;
+    }
+
     .container {
-      max-width: 650px;
+      max-width: 700px;
       margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
+
     .header {
+      background: linear-gradient(135deg, #00995d, #007a4d);
+      padding: 35px 40px;
+      color: white;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .header p {
+      margin-top: 8px;
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .greeting {
       font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    .text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #444;
+      margin-bottom: 25px;
+    }
+
+    .info-box {
+      background-color: #f8faf9;
+      border-left: 4px solid #00995d;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 30px 0;
+    }
+
+    .info-item {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .info-item strong {
+      color: #006b43;
+    }
+
+    .response-box {
+      background-color: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 10px;
+      padding: 25px;
+      margin-top: 25px;
+    }
+
+    .response-title {
+      color: #00995d;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .response-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #444;
+      white-space: pre-line;
+    }
+
+    .footer {
+      background-color: #f8f8f8;
+      padding: 30px 40px;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .footer-main {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #444;
       margin-bottom: 20px;
     }
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
+
+    .footer-warning {
+      font-size: 12px;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    .signature {
+      margin-top: 25px;
+      color: #006b43;
+      font-weight: bold;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .content,
+      .header,
+      .footer {
+        padding: 25px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
 
-    <p class="header">
-      Prezado(a) {{NOME}},
-    </p>
+  <div class="wrapper">
 
-    <p>
-      Informamos que o seu questionamento foi analisado e respondido 
-      por um dos nossos analistas da Unimed de Pindamonhangaba.
-    </p>
+    <div class="container">
 
-    <p>
-      <strong>Data da resposta:</strong> {{DATA_RESPOSTA}}<br>
-      <strong>Analista responsável:</strong> {{NOME_ANALISTA}}
-    </p>
+      <div class="header">
+        <h1>Ouvidoria Unimed</h1>
+        <p>Unimed de Pindamonhangaba</p>
+      </div>
 
-    <p>
-      <strong>Resposta:</strong><br>
-      {{TEXTO_RESPOSTA}}
-    </p>
+      <div class="content">
 
-    <p class="footer">
-      Permanecemos à disposição para qualquer esclarecimento adicional.<br>
-      Atenciosamente,<br>
-      Equipe de Ouvidoria – Unimed de Pindamonhangaba.
-    </p>
-    <div class="footer">
-      Esta é uma mensagem automática enviada pelo sistema de ouvidoria. Por favor, não responda a este e-mail diretamente.
+        <div class="greeting">
+          Prezado(a), <strong>{{NOME}}</strong>
+        </div>
+
+        <div class="text">
+          Informamos que sua manifestação foi analisada pela equipe responsável da Ouvidoria da Unimed de Pindamonhangaba.
+        </div>
+
+        <div class="info-box">
+
+          <div class="info-item">
+            <strong>Data da resposta:</strong>
+            {{DATA_RESPOSTA}}
+          </div>
+
+          <div class="info-item">
+            <strong>Analista responsável:</strong>
+            {{NOME_ANALISTA}}
+          </div>
+
+          <div class="info-item">
+            <strong>Status:</strong>
+            Finalizado
+          </div>
+
+        </div>
+
+        <div class="response-box">
+
+          <div class="response-title">
+            Resposta da Ouvidoria
+          </div>
+
+          <div class="response-text">
+            {{TEXTO_RESPOSTA}}
+          </div>
+
+        </div>
+
+        <div class="text" style="margin-top:30px;">
+          Permanecemos à disposição para quaisquer esclarecimentos adicionais.
+        </div>
+
+        <div class="signature">
+          Atenciosamente,<br>
+          Equipe de Ouvidoria<br>
+          Unimed de Pindamonhangaba
+        </div>
+
+      </div>
+
+      <div class="footer">
+
+        <div class="footer-main">
+          Esta mensagem foi enviada automaticamente pelo sistema de Ouvidoria da Unimed de Pindamonhangaba.
+        </div>
+
+        <div class="footer-warning">
+          Por favor, não responda diretamente este e-mail. Caso necessite de suporte adicional,
+          entre em contato pelos canais oficiais de atendimento da cooperativa.
+        </div>
+
+      </div>
+
     </div>
+
   </div>
+
 </body>
 </html>

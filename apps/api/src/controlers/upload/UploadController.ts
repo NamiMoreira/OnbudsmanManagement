@@ -7,7 +7,6 @@ class UploadController {
         const files = req.files as Express.Multer.File[];
         
         if (files.length === 0) {
-            console.log("[Controller] Array de arquivos vazio");
             return res.status(400).json({ 
                 status: "error", 
                 message: "Array de arquivos vazio." 

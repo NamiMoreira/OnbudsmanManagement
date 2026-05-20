@@ -76,7 +76,10 @@ export const useOcorrencia = () => {
   };
 
   const handleFilterChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    if (name === 'cpf') {
+      value = value.replace(/[.-]/g, "")
+    }
     setSearchFilters((prev) => ({ ...prev, [name]: value }));
   };
 

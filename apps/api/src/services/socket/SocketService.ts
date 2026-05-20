@@ -176,7 +176,7 @@ Digite uma das opções a seguir:
 
                 await prismaClient.occurrence.update({
                   where: { protocolo: user.protocol },
-                  data: { message: true, status_id: 6 },
+                  data: { message: true, status_id: 3 },
                 });
 
                 socket.emit("botResponse", {

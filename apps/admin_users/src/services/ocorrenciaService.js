@@ -3,6 +3,7 @@ import { apiService } from './apiService';
 
 export const ocorrenciaService = {
   async carregarOcorrencia(id, callbacks) {
+    console.log('teste');
     
     const { 
       setLoading, 
@@ -30,7 +31,7 @@ export const ocorrenciaService = {
       let result;
       try {
         result = JSON.parse(rawText);
-        console.log('✅ JSON parseado:', result);
+       
       } catch (jsonError) {
         throw new Error('Resposta da API não é JSON válido');
       }
@@ -139,7 +140,6 @@ export const ocorrenciaService = {
       `http://192.168.30.26:8090/occurrence/notification?protocol=${protocol}`
     );
         const data = await response.json();
-        console.log(data)
     return data;
   } catch (error) {
     console.error("Erro ao buscar notificações", error);
@@ -155,7 +155,6 @@ processarDadosOcorrencia(dadosOcorrencia, idOriginal, callbacks) {
     fetchDocumentos
   } = callbacks;
   
-  console.log('🔍 Processando dados da ocorrência:', dadosOcorrencia);
   
   // Verifica se dadosOcorrencia é válido
   if (!dadosOcorrencia || typeof dadosOcorrencia !== 'object') {
@@ -165,7 +164,6 @@ processarDadosOcorrencia(dadosOcorrencia, idOriginal, callbacks) {
   
   // Encontrar o identificador da ocorrência
   const protocoloEncontrado = this.encontrarProtocolo(dadosOcorrencia, idOriginal);
-  console.log('✅ Protocolo identificado:', protocoloEncontrado);
   
   // Atualizar estados
   setProtocolo(protocoloEncontrado);
@@ -173,7 +171,6 @@ processarDadosOcorrencia(dadosOcorrencia, idOriginal, callbacks) {
   
   // Mapear e preencher formData
   const formDataMapeado = this.mapearFormData(dadosOcorrencia);
-  console.log('📝 FormData mapeado:', formDataMapeado);
   
   setFormData(formDataMapeado);
   
@@ -272,7 +269,7 @@ limparEstados(callbacks) {
   });
 },
 
-  async buscarOcorrencias(filters, callbacks) {
+  async buscarOcorrencias(filters, callbacks) { 
     const { setSearching, setShowResults, setSearchResults } = callbacks;
 
     setSearching(true);
@@ -280,7 +277,6 @@ limparEstados(callbacks) {
 
     try {
       const data = await apiService.searchOcorrencias(filters);
-      console.log(data)
       if (data.status === 404) {
         throw new Error(data.error);
       }
@@ -376,7 +372,6 @@ limparEstados(callbacks) {
     setLoadingComentarios(true);
     try {
       const data = await apiService.fetchComentarios(ocorrenciaId);
-      console.log(data.content);
       
       
       
@@ -409,16 +404,17 @@ limparEstados(callbacks) {
       const payload = {
         
         protocol: protocolo,
-        sector_destiny: sendToSectorData.setor,
-        sector_origin: userInfo.group,
+        sector_destiny: Number(sendToSectorData.setor),
+        sector_origin: userInfo.sector,
         observacao: sendToSectorData.observacao,
         user_send: userInfo.name,
-        date_send: new Date()
+        date_send: new Date(),
+       
       };
 
       await apiService.SendAnotherSector(payload);
 
-      alert(`Demanda enviada com sucesso para o setor: ${sendToSectorData.setor}`);
+      alert(`Demanda enviada com sucesso para o setor.}`);
 
       setShowSendToSectorModal(false);
       setSendToSectorData({

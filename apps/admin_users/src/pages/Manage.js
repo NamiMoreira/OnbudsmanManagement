@@ -2,7 +2,9 @@ import { useOcorrencia } from "../hooks/useOcorrencia"
 import { ocorrenciaService } from "../services/ocorrenciaService";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ModalFinalizarDemanda from '../components/modal/Finish.tsx';
+import { useAuth } from "../hooks/useAuth";
 
 
 export default function Manage() {
@@ -42,7 +44,7 @@ export default function Manage() {
   } = useOcorrencia();
   const [notificationCount, setNotificationCount] = useState(0);
   const [showFinalizarModal, setShowFinalizarModal] = useState(false);
-
+   const { user, logout, token } = useAuth();
   // Callbacks para os serviços
   const callbacks = {
     setLoading,
@@ -64,13 +66,12 @@ export default function Manage() {
     setShowQuestionarBeneficiarioModal,
     setQuestionarBeneficiarioData,
   };
-
-  // Dados estáticos (mantidos do código original)
-  const userInfo = {
-
-    name: "Carlos Silva",
-    group: "Ouvidoria",
-    email: "carlos.silva@unimed.com.br",
+const navigate = useNavigate();
+ const userInfo = {
+    name: user?.name || user?.email?.split("@")[0] || "Usuário",
+    group: user?.role === 1 ? "Administrador" : "Ouvidoria",
+    email: user?.email || "",
+    sector: user?.sector || ""
   };
 
   const statusOptions = [
@@ -161,7 +162,7 @@ export default function Manage() {
   // Opções para os setores
   const setorOptions = [
     { value: "", label: "Selecione o setor" },
-    { value: "atendimento", label: "Atendimento ao Cliente" },
+    { value: "1", label: "Atendimento ao Cliente" },
     { value: "financeiro", label: "Financeiro" },
     { value: "juridico", label: "Jurídico" },
     { value: "ti", label: "Tecnologia da Informação" },
@@ -170,6 +171,8 @@ export default function Manage() {
     { value: "medico", label: "Setor Médico" },
     { value: "enfermagem", label: "Enfermagem" },
   ];
+
+
 
   // Funções wrapper para os serviços
   const fetchOcorrencia = async () => {
@@ -187,6 +190,7 @@ export default function Manage() {
       // Atualizar o estado antes de buscar
       setOcorrenciaId(idParaBuscar);
       setProtocolo(idParaBuscar);
+      setShowResults(false)
 
       // Chamar o serviço
       const resultado = await ocorrenciaService.carregarOcorrencia(idParaBuscar, {
@@ -194,6 +198,7 @@ export default function Manage() {
         fetchDocumentos,
         onSuccess: (data) => {
           console.log(data)
+          
         }
       });
       const result =  await ocorrenciaService.fetchNotifications(idParaBuscar);
@@ -263,7 +268,16 @@ export default function Manage() {
   };
 
   const handleUserAction = (action) => {
-    alert(`${action} clicado!`);
+    
+    if (action === "Trocar Senha") {
+      navigate(`/Reset-password?token=${token}`);
+    }
+    
+    if (action === "Sair") {
+      logout();
+      navigate("/login");
+    }
+    
     setShowUserMenu(false);
   };
 
@@ -286,6 +300,7 @@ export default function Manage() {
       canal_interno: ocorrencia.canal_interno || "",
       observacoes_internas: ocorrencia.observacoes_internas || "",
       objetivo: ocorrencia.objetivo ,
+      status_id: ocorrencia.status_id
     });
     fetchDocumentos(ocorrencia.protocolo || ocorrencia._protocolo);
     setShowResults(false);
@@ -374,12 +389,13 @@ const getStatusBadgeClassByStatusId = (statusId) => {
 // Função para pegar o progresso baseado no status_id
 const getStatusProgress = (statusId) => {
   const progressMap = {
-    1: 25,  // Aberto - 25%
-    2: 50,  // Encaminhada - 50%
-    3: 75,  // Pendente - 75%
-    4: 100, // Finalizado - 100%
-    5: 60,  // Pendente Ouvidoria - 60%
-    6: 40,  // Questionamento Benef. Pendente - 40%
+    1: 20,  // Aberto - 25%
+    2: 35,  // Encaminhada - 50%
+    3: 25,  // Pendente - 75%
+    4: 25, // Finalizado - 100%
+    5: 50,  // Pendente Ouvidoria - 60%
+    9: 80,
+    10: 100,  // Questionamento Benef. Pendente - 40%
   };
   return progressMap[statusId] || 0;
 };
@@ -391,18 +407,19 @@ const getProgressBarClass = (statusId) => {
     2: "bg-info",
     3: "bg-warning",
     4: "bg-success",
-    5: "bg-danger",
-    6: "bg-purple",
+    9: "bg-danger",
+    10: "bg-purple",
   };
   return classMap[statusId] || "bg-secondary";
 };
   const getStatusLabel = (status) => {
     const statusLabels = {
       1: "Aberto",
-      2: "Encaminhada outro setor",
-      6: "Questionamento Benef. Pendente",
-      5: "Pendente Ouvidoria",
-      3: "Pendente Manifestante",
+      2: "Aguardando Setor Responsável",
+      3: "Pendente Resposta Comentário",
+      4: "Em Processamento",
+      5: "Aguardando Resposta Manifestante",
+      6: "Finalizado"
     };
     return statusLabels[status] || status || "N/A";
   };
@@ -920,6 +937,7 @@ const getProgressBarClass = (statusId) => {
                         ))}
                       </select>
                     </div>
+
                     <div className="mb-3">
                       <label className="form-label">Observações</label>
                       <textarea
@@ -1024,7 +1042,7 @@ const getProgressBarClass = (statusId) => {
                         className="form-control"
                         name="cpf"
                         placeholder="Digite o CPF"
-                        value={searchFilters.cpf}
+                        value={(searchFilters.cpf.replace(/[.-]/g, ""))}
                         onChange={handleFilterChange}
                       />
                     </div>
@@ -1063,7 +1081,7 @@ const getProgressBarClass = (statusId) => {
                         className="form-control"
                         name="nome"
                         placeholder="Digite o nome"
-                        value={searchFilters.nome}
+                        value={ searchFilters.nome.toUpperCase()}
                         onChange={handleFilterChange}
                       />
                     </div>
@@ -1315,56 +1333,7 @@ const getProgressBarClass = (statusId) => {
         </div>
       </div>
       
-      {/* Timeline de Status */}
-      <div className="mt-4 pt-2">
-        <h6 className="text-muted mb-3">
-          <i className="bi bi-clock-history me-2"></i>
-          Histórico de Status
-        </h6>
-        <div className="timeline">
-          <div className={`timeline-item ${formData.status_id >= 1 ? 'completed' : ''}`}>
-            <div className="timeline-icon">
-              <i className="bi bi-file-text"></i>
-            </div>
-            <div className="timeline-content">
-              <strong>Abertura da Ocorrência</strong>
-              <p className="mb-0 small text-muted">
-                {formData.created_at ? new Date(formData.created_at).toLocaleString('pt-BR') : 'Data não informada'}
-              </p>
-            </div>
-          </div>
-          
-          <div className={`timeline-item ${formData.status_id >= 2 ? 'completed' : formData.status_id === 1 ? 'active' : ''}`}>
-            <div className="timeline-icon">
-              <i className="bi bi-send"></i>
-            </div>
-            <div className="timeline-content">
-              <strong>Análise Inicial</strong>
-              <p className="mb-0 small text-muted">Em andamento</p>
-            </div>
-          </div>
-          
-          <div className={`timeline-item ${formData.status_id >= 3 ? 'completed' : formData.status_id === 2 ? 'active' : ''}`}>
-            <div className="timeline-icon">
-              <i className="bi bi-chat"></i>
-            </div>
-            <div className="timeline-content">
-              <strong>Em Tratamento</strong>
-              <p className="mb-0 small text-muted">Setor responsável</p>
-            </div>
-          </div>
-          
-          <div className={`timeline-item ${formData.status_id >= 4 ? 'completed' : formData.status_id === 3 ? 'active' : ''}`}>
-            <div className="timeline-icon">
-              <i className="bi bi-check2-circle"></i>
-            </div>
-            <div className="timeline-content">
-              <strong>Finalização</strong>
-              <p className="mb-0 small text-muted">Aguardando conclusão</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    
     </div>
   </div>
 )}

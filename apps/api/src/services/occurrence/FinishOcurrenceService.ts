@@ -19,6 +19,7 @@ class FinishOcurrenceService {
                 status_id: 10
             }
         }); 
+        return 
     }
 }
 
