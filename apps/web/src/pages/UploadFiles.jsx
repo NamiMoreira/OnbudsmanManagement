@@ -1,7 +1,8 @@
-// src/pages/DragDropUploadBootstrap.jsx
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 export default function DragDropUploadBootstrap() {
+  const fileInputRef = useRef(null);
+
   const [files, setFiles] = useState([]);
   const [protocol, setProtocol] = useState("");
   const [error, setError] = useState("");
@@ -10,12 +11,20 @@ export default function DragDropUploadBootstrap() {
 
   const handleFiles = (selectedFiles) => {
     setError("");
+
+    if (!selectedFiles || selectedFiles.length === 0) return;
+
     const invalidFile = Array.from(selectedFiles).find(
       (file) => file.size > MAX_FILE_SIZE_MB * 1024 * 1024
     );
 
     if (invalidFile) {
       setError(`O arquivo "${invalidFile.name}" excede 8MB.`);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
       return;
     }
 
@@ -33,6 +42,9 @@ export default function DragDropUploadBootstrap() {
 
   const handleChange = (e) => {
     handleFiles(e.target.files);
+
+    // evita bug de não disparar onChange ao selecionar o mesmo arquivo
+    e.target.value = null;
   };
 
   const handleProtocolChange = (e) => {
@@ -57,9 +69,9 @@ export default function DragDropUploadBootstrap() {
     try {
       const formData = new FormData();
 
-      // 🔹 CORREÇÃO PRINCIPAL: usar a mesma chave que o backend espera
       formData.append("protocol", protocol);
 
+      // (mantido exatamente como você fez)
       files.forEach((file) => {
         formData.append("file", file);
       });
@@ -78,8 +90,13 @@ export default function DragDropUploadBootstrap() {
       }
 
       alert("Arquivos enviados com sucesso!");
+
       setProtocol("");
       setFiles([]);
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (err) {
       console.error("Erro no envio:", err);
       setError("Erro ao enviar dados. Verifique sua conexão e tente novamente.");
@@ -113,11 +130,13 @@ export default function DragDropUploadBootstrap() {
           style={{ cursor: "pointer" }}
         >
           <input
+            ref={fileInputRef}
             type="file"
             multiple
             onChange={handleChange}
             className="position-absolute top-0 start-0 w-100 h-100 opacity-0"
           />
+
           <div className="d-flex flex-column align-items-center justify-content-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -130,8 +149,14 @@ export default function DragDropUploadBootstrap() {
               <path d="M.5 9.9a.5.5 0 0 1 .5-.5h4V1.5a.5.5 0 0 1 1 0v7.9h4a.5.5 0 0 1 .5.5v.6a.5.5 0 0 1-.5.5H1a.5.5 0 0 1-.5-.5v-.6z" />
               <path d="M7.646 1.146a.5.5 0 0 1 .708 0L11 3.793 9.646 5.146 8.5 4.0V10.5a.5.5 0 0 1-1 0V4.0l-1.146 1.146L5 3.793l2.646-2.647z" />
             </svg>
-            <p className="mb-0">Arraste e solte os arquivos aqui ou clique para selecionar</p>
-            <small className="text-muted">Máximo 8MB por arquivo</small>
+
+            <p className="mb-0">
+              Arraste e solte os arquivos aqui ou clique para selecionar
+            </p>
+
+            <small className="text-muted">
+              Máximo 8MB por arquivo
+            </small>
           </div>
         </div>
 
@@ -153,6 +178,7 @@ export default function DragDropUploadBootstrap() {
       {files.length > 0 && (
         <div className="mt-3">
           <h5>Arquivos Selecionados:</h5>
+
           <ul className="list-group">
             {files.map((file, index) => (
               <li

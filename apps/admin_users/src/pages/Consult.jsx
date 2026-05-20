@@ -7,6 +7,7 @@ export default function New() {
   const [searching, setSearching] = useState(false);
   const [ocorrenciaId, setOcorrenciaId] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [visibleResults, setVisibleResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [documentos, setDocumentos] = useState([]);
   const [loadingDocumentos, setLoadingDocumentos] = useState(false);
@@ -313,34 +314,47 @@ export default function New() {
     try {
       const queryParams = new URLSearchParams();
 
-      if (searchFilters.cpf) queryParams.append("cpf", searchFilters.cpf);
+      if (searchFilters.cpf)
+        queryParams.append("cpf", searchFilters.cpf);
+
       if (searchFilters.cartao_beneficiario)
-        queryParams.append(
-          "cartao_beneficiario",
-          searchFilters.cartao_beneficiario
-        );
+        queryParams.append("cartao_beneficiario", searchFilters.cartao_beneficiario);
+
       if (searchFilters.status)
         queryParams.append("status", searchFilters.status);
-      if (searchFilters.nome) queryParams.append("nome", searchFilters.nome);
-      if (searchFilters.email) queryParams.append("email", searchFilters.email);
+
+      if (searchFilters.nome)
+        queryParams.append("nome", searchFilters.nome);
+
+      if (searchFilters.email)
+        queryParams.append("email", searchFilters.email);
 
       const queryString = queryParams.toString();
+
       const url = queryString
         ? `http://192.168.30.26:8090/ocurrence/filter/?${queryString}`
         : `http://192.168.30.26:8090/ocurrence/filter`;
 
       const response = await fetch(url);
-
       const data = await response.json();
+
       if (data.status === 404) {
         throw new Error(data.error);
       }
-      setSearchResults(Array.isArray(data) ? data : [data]);
+
+      // ✅ 🔥 AQUI É O PONTO MAIS IMPORTANTE
+      const dataArray = Array.isArray(data) ? data : [data];
+
+      setSearchResults(dataArray);     // backup (backend)
+      setVisibleResults(dataArray);    // UI (editável)
+
       setShowResults(true);
-      setFormData.protocolo = data.protocolo
-      if (Array.isArray(data) && data.length === 0) {
-        alert("Nenhuma ocorrência encontrada com os filtros informados.");
-      }
+
+      setFormData((prev) => ({
+        ...prev,
+        protocolo: dataArray[0]?.protocolo
+      }));
+
     } catch (error) {
       console.error("Erro ao buscar ocorrências:", error);
       alert(`Erro ao buscar ocorrências: ${error.message}`);
@@ -403,11 +417,13 @@ export default function New() {
     }
   };
 
-  const handleSendToSector = async () => {
-    if (!ocorrenciaId) {
-      alert("Nenhuma ocorrência carregada para enviar para outro setor");
-      return;
-    }
+    const handleRemoveCard = (id) => {
+      console.log('terste');
+      
+      setVisibleResults((prev) =>
+        prev.filter((item) => (item._id || item.id) !== id)
+      );
+    };
 
     if (!sendToSectorData.setor) {
       alert("Por favor, selecione um setor para enviar a demanda");
@@ -1312,8 +1328,13 @@ export default function New() {
                     <button
                       type="button"
                       className="btn btn-success w-100"
-                      onClick={() => fetchOcorrencia(ocorrenciaId)}
+                      onClick={() => {
+                              fetchOcorrencia(ocorrenciaId);
+                              setVisibleResults([]); // limpa cards antigos
+                            }}
+
                       disabled={loading || !ocorrenciaId}
+                      
                     >
                       {loading ? (
                         <>

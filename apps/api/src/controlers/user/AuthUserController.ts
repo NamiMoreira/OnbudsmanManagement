@@ -11,8 +11,6 @@ class AuthUserController {
     if (auth.logError) {
       res.status(auth.status).send(auth.error)
     } else {
-      
-      
       return res.json(auth);
     }
   }

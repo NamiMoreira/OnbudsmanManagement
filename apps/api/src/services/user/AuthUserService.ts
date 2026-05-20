@@ -1,6 +1,8 @@
 import prismaClient from '../../prisma';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import { SaveNewPasswordService } from './SaveNewPasswordService';
+import { SaveTokenService } from './SaveTokenService';
 
 interface AuthRequest {
     email: string;
@@ -47,10 +49,11 @@ class AuthUserService {
             process.env.JWT_SECRET,
             {
                 subject: user.id,
-                expiresIn: '60d'
+                expiresIn: '10h'
             }
         );
-
+        const saveTokenService = new SaveTokenService()
+            saveTokenService.execute(token)
         // Retornar todos os dados do usuário
         return {
             token: token,

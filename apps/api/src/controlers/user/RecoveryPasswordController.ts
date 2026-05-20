@@ -4,22 +4,25 @@ import {SendEmailService} from "../../services/email/SendEmailService"
 import { SaveTokenService } from "../../services/user/SaveTokenService";
 const path = require("path");
 import { readFileSync } from "fs";
-const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+
 
 
 class RecoveryPasswordController {
   async handle(req: Request, res: Response) {
     let email = req.body;
-    email = email.email
-    console.log(email);
+    email = email.email    
     
     const getUserService = new GetUserService();
-    const userAlreadyExists = await getUserService.execute("email", email);
+    const userAlreadyExists = await getUserService.executeEmail(email);
+   
     if (userAlreadyExists) {
-      const token = crypto.randomBytes(32).toString('hex');  
-      const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+      const user =  { "email": email} 
+      const token =  jwt.sign(user,process.env.JWT_SECRET,{expiresIn:'1h'})    
+                  
       const saveTokenService = new SaveTokenService()
-      const resultSaveToken = await saveTokenService.execute(token,email,expiresAt)
+      const resultSaveToken = await saveTokenService.execute(token)
+      
       if (resultSaveToken) {
         
           try {
@@ -33,6 +36,7 @@ class RecoveryPasswordController {
                 
                 texto = texto.replace('{{RESET_LINK}}',`http://local.unimed.test:3000/reset-password?token=${token}`)
                 
+                console.log(token);
                 
                 const payload = {
                     from: "noreply@unimedpinda.com.br",
@@ -40,9 +44,7 @@ class RecoveryPasswordController {
                     subject: "Recuperar a Senha - Ouvidoria",
                     html: texto,
                 };
-                
-                console.log(payload.html);
-                
+                                
                 var info = await sendEmail.execute(payload);
             } catch (error) {
                 console.log(error);
@@ -56,7 +58,10 @@ class RecoveryPasswordController {
             console.log('usuario não encontrado');
             res.send('ok').status(200)
         }
-    }
+    }else{
+            console.log('usuario não encontrado');
+            res.send('ok').status(200)
+        }
   }
 }
 export {RecoveryPasswordController}

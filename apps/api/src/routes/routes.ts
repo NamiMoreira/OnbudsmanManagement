@@ -19,6 +19,7 @@ import {DownloadQuestionsOcurrenceController} from "../controlers/occurrence/Dow
 import { NotificationQuestionOcurrenceController } from "../controlers/occurrence/NotificationQuestionOcurrenceController";
 import {RecoveryPasswordController} from "../controlers/user/RecoveryPasswordController";
 import {SaveNewPasswordController} from "../controlers/user/SaveNewPasswordController";
+import { GetOcurrenceStatusController } from "../controlers/occurrence/GetOccurrenceStatusController";
 
 router.post("/session", new AuthUserController().handle);
 
@@ -55,4 +56,8 @@ router.get("/occurrence/notification", new NotificationQuestionOcurrenceControll
 router.post("/recoveryPassword", new RecoveryPasswordController().handle)
 
 router.put("/user-recovery", new SaveNewPasswordController().handle)
+
+router.get("/occurrence-filter-status", new GetOcurrenceStatusController().handle)
+
+
 export { router };

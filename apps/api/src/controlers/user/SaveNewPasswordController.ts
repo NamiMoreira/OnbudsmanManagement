@@ -1,5 +1,7 @@
+import { verify } from 'jsonwebtoken';
 import { Request,Response } from "express";
 import { GetUserService } from "../../services/user/GetUserService";
+import { SaveNewPasswordService } from "../../services/user/SaveNewPasswordService";
 
 
 class SaveNewPasswordController {
@@ -10,10 +12,30 @@ class SaveNewPasswordController {
 
         const token = authHeader?.split(' ')[1];
         const getUserService = new GetUserService()
-        const email = getUserService.execute('token',token)
         
+        try {
+            const decoded = verify(
+                token,
+                process.env.JWT_SECRET
+            );
+            const decode = await getUserService.executeToken(token)
 
-        return res.status(200)
+            if (decode) { 
+                const saveNewPasswordService = new SaveNewPasswordService()
+                const status = saveNewPasswordService.execute(decode.email,password )
+                if (status) {
+                    res.status(200).send("Alterado com sucesso!")
+                }else{
+                    res.status(500).send("Falha ao salvar a nova senha!")
+                }
+           
+            }
+
+            } catch (err) {
+            console.log('Token inválido');
+            res.status(500).send("Falha ao salvar a nova senha!")
+            }
+     
         
 
     }

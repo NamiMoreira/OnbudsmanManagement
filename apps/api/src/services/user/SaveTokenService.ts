@@ -1,23 +1,17 @@
-import { SendEmailController } from "../../controlers/email/SendEmailController";
 import prismaClient from "../../prisma";
 
 
 class SaveTokenService{
-    async execute(token,email,expires_at){
-            let result = await prismaClient.userRecovery.create({
+    async execute(token){            
+        let result = await prismaClient.userRecovery.create({
                 data: {
-                    token:  token ,
-                    user_email: email ,
-                    expires_at: expires_at
+                    token:  token               
                 }
-
             })
             if (result) {
-                return true
-                
+                return true         
             }else{
                 return false
-
             }
         }
 }
