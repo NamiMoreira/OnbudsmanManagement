@@ -8,24 +8,21 @@ class DownloadOcurrenceService {
   async execute(protocolo) {
     try {
       var files = []
-      const dir = path.resolve(__dirname, "../../uploads");
+      const dir = path.resolve(__dirname, "../../uploads/occurrence");
       const dirZip = path.resolve(__dirname, "../../uploads/zip")
       const doc = await readdir(dir);
       
+      
       for (let i = 0; i < doc.length; i++) {
-          let element = doc[i];
-          if (`${element.split("-")[0]}-${element.split("-")[1]}` == protocolo ) {
-            element = path.resolve(__dirname,"../../uploads",element )
-            files.push(element); 
-            
-            break
+          let element = doc[i];          
+          if (element.split('-')[0] == protocolo ) {
+            let filePath = path.resolve(__dirname,"../../uploads",element )
+            files.push(filePath); 
           }   
-      }
-      console.log(files);
+      }    
+  
+      const zipPath = await createZipFromFiles(files,dirZip, `${protocolo}.zip`);
       
-      
-      const zipPath = await createZipFromFiles(files,dirZip, "arquivo.zip");
-
       return {status: 'success', content: zipPath, err:""};
     } catch (error) {
       return { status: "error",content:"", err: error };

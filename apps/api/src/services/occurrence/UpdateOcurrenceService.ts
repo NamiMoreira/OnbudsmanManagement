@@ -25,7 +25,7 @@ class UpdateOcurrenceService {
         updated_at: new Date(), 
         
       };
-      console.log(updateData);
+      
       
   
       const ocurrence = await prismaClient.occurrence.update({

@@ -25,7 +25,7 @@ class FinishOcurrenceController {
             subject: "Finalização Ocorrencia - Ouvidoria",
             html: template,
           };
-          console.log(payload);
+
           
           const info = await sendEmail.execute(payload )
           

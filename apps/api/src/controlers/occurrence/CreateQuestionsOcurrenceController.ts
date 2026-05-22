@@ -45,12 +45,13 @@ class CreateQuestionsOcurrenceController {
           files.push(element);
         
         }
+
       }      
       if (files.length != 0) {
         template = template.replace('{{DOWNLOAD}}','Documentos anexos disponíveis para download.')
         const outputFolder = path.resolve(__dirname,"..","..","uploads","questions",'zip');
         const zipName = `${data_envio}_files.zip`;
-        const zipFiles = await createZipFromFiles(files,outputFolder,zipName);
+        const zipFiles = await createZipFromFiles(files,outputFolder,zipName,'question');
      
         const payload = {
           from: "noreply@unimedpinda.com.br",
