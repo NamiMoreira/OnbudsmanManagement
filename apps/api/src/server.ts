@@ -7,10 +7,13 @@ import http from "http";
 import { uploadRoutes } from "./routes/upload.routes";
 import { Server } from "socket.io";
 import { SocketService } from "./services/socket/SocketService";
+require ('dotenv').config
 
 const app = express();
-const port = 8090;
-const host = "192.168.30.26";
+const port = process.env.OS_PORT;
+const host = process.env.OS_HOST;
+
+
 
 const allowedOrigins = [
   "http://local.unimed.test:3000",
