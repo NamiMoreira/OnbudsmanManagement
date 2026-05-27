@@ -10,8 +10,10 @@ import { SocketService } from "./services/socket/SocketService";
 require ('dotenv').config
 
 const app = express();
-const port = process.env.OS_PORT;
+const port = Number(process.env.OS_PORT);
 const host = process.env.OS_HOST;
+
+
 
 
 
