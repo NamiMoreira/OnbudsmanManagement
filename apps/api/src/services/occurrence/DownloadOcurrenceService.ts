@@ -16,7 +16,9 @@ class DownloadOcurrenceService {
       for (let i = 0; i < doc.length; i++) {
           let element = doc[i];          
           if (element.split('-')[0] == protocolo ) {
-            let filePath = path.resolve(__dirname,"../../uploads",element )
+            let filePath = path.resolve(__dirname,"../../uploads/occurrence",element )
+            console.log(filePath);
+            
             files.push(filePath); 
           }   
       }    
@@ -27,7 +29,7 @@ class DownloadOcurrenceService {
     } catch (error) {
       return { status: "error",content:"", err: error };
     }
-  }
+  } 
 }
  
 export { DownloadOcurrenceService };
